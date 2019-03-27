@@ -1,0 +1,10 @@
+# update and install dependencies
+- name: Installs a list of packages
+  apt:
+    name: "{{ packages }}" 
+    update_cache: true
+  vars:
+    packages:
+      - python
+      - python-simplejson
+      - python-passlib

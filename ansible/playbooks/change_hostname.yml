@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: no
+  become: true
+
+  tasks:
+    # -e hostname=hostname
+    - include_tasks: ../tasks/hostname.yml
+    

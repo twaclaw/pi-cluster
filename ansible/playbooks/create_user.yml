@@ -1,0 +1,19 @@
+---
+  - hosts: "all"
+    gather_facts: false
+    become: true
+    become_method: sudo
+
+    vars_prompt:
+    - name: "user_password"    
+      prompt: "Enter a password for the user"    
+      private: yes    
+      encrypt: "md5_crypt"   
+      confirm: yes    
+      salt_size: 7
+
+    tasks:
+       - include_tasks: ../tasks/update.yml
+       - include_tasks: ../tasks/create_user.yml
+       - include_tasks: ../tasks/copy_ssh_key.yml
+      

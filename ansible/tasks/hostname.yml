@@ -1,0 +1,13 @@
+# Set the hostname
+- name: Set hostname
+  become: yes
+  command: hostnamectl set-hostname "{{ hostname }}"
+
+# Searches for a line that begins with 127.0.0.1 and replaces it with the value of the 'line' parameter
+- lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1.*raspberrypi'
+    line: '127.0.0.1  {{hostname}}'
+    owner: root
+    group: root
+    mode: 0644

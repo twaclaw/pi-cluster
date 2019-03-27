@@ -1,0 +1,7 @@
+ - name: "add new user" 
+   user: 
+    name: "{{user_name}}" 
+    comment: "Creating new user"
+    password: "{{user_password}}" 
+    shell: /bin/bash
+    groups: sudo 
