@@ -5,5 +5,7 @@
 
   tasks:
     - name: shutdown
-      command: /sbin/shutdown -h now
+      shell: sleep 3 && /sbin/shutdown -h now
+      async: 1
+      poll: 0
       become: true
