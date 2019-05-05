@@ -18,7 +18,7 @@ Hardware
 * Some sort of casing for the RPis cluster
 
 .. image:: ./images/cluster.jpg 
-    :height: 400px
+    :height: 400
     :align: center
 
 
