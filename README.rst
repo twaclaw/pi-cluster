@@ -1,39 +1,79 @@
-Macondo: a Raspberry pi cluster
-===============================
+Macondo: Yet Another Raspberry Pi Cluster
+==========================================
 
-Setup Raspberry Pis
---------------------
 
-* Discover the devices.  Replace `172.16.0.0` by your own network address
+.. image:: ./images/raspberries.jpg 
+
+
+There are some practical reasons motivating this exercise;
+however, the main one is just for fun... Why not? 
+
+
+Hardware
+---------
+* 5 Raspberry Pi model 3 Model B+
+* A 8-port 100Mbps switch (I used `this one <https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812>`_)
+* A power supply with enough wattage (I used `this 60W one <https://www.anker.com/products/A2133111>`_)
+* Micro-USB and ethernet cables
+* Some sort of casing for the RPis cluster
+
+.. image:: ./images/cluster.jpg 
+
+
+Setup
+------
+
+Bootstrap and Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. role:: bash(code)
+   :language: bash
+
+Assuming you have flashed the sdcards (I used `raspbian <https://www.raspberrypi.org/documentation/installation/installing-images/linux.md>`_),
+enabled ssh (create an empty file called "ssh" in the boot partition: :bash:`touch /mount-point/boot/ssh`), and
+powered-up the cluster, you can start with
+the configuration. I use Ansible to configure the devices.
+
+* Discover the devices ip addresses. Here, I assume your network IP address is 172.16.0.0/24.  You can create an Ansible inventory with those IP addresses.
+
+    .. code:: bash
+
+        sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
+* The ansible playbooks are located in the ansible folder ( :bash:`cd ansible` )
+* Create a new user (e.g. `macondo`), deploy an ssh public key; finally, delete the old user `pi`:
+   
+    .. code:: bash
+
+        ansible-playbook playbooks/create_user.yml -i inventory.cfg --user pi --ask-pass  -e user_name=macondo  -e ssh_key=FULL_PATH_TO_ID_RSA_PUB 
+        ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
+* Optionally, you can change the devices hostnames. This playbook has to be applied on each device, for instance:
+    
+    .. code:: bash
+
+        ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
+
+  In my case the nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
+
+Additional Ansible Scripts
+---------------------------
+
+Shutdown and Reboot
+~~~~~~~~~~~~~~~~~~~~
 
 .. code:: bash
 
-    sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
-
-TODO
------
-
-* Ansible 
-* Docker
-* Spark 
+    ansible-playbook playbooks/shutdown.yml -i inventory.cfg --user macondo --ask-become-pass
+    ansible-playbook playbooks/reboot.yml -i inventory.cfg --user macondo --ask-become-pass
 
 
 Adhoc commands
-------------------
+~~~~~~~~~~~~~~~
+
+For instance:
+
 .. code:: bash
 
     ansible all -m ping -i inventory.cfg -u macondo
-
-
-Bootstrap
-----------
-
-.. code:: bash
-
-    ansible-playbook playbooks/create_user.yml -i inventory.cfg --user pi --ask-pass  -e user_name=macondo  -e ssh_key=FULL_PATH_TO_ID_RSA_PUB 
-    ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
-    ansible-playbook playbooks/change_hostname.yml -i "192.168.0.178," --user macondo --ask-become-pass -e hostname=remedios 
-
 
 Credits
 --------
