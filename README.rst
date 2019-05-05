@@ -3,7 +3,7 @@ Macondo: Yet Another Raspberry Pi Cluster
 
 
 .. image:: ./images/raspberries.jpg 
-
+    :align: center
 
 There are some practical reasons motivating this exercise;
 however, the main one is just for fun... Why not? 
@@ -18,6 +18,8 @@ Hardware
 * Some sort of casing for the RPis cluster
 
 .. image:: ./images/cluster.jpg 
+    :height: 400px
+    :align: center
 
 
 Setup
@@ -34,7 +36,7 @@ enabled ssh (create an empty file called "ssh" in the boot partition: :bash:`tou
 powered-up the cluster, you can start with
 the configuration. I use Ansible to configure the devices.
 
-* Discover the devices ip addresses. Here, I assume your network IP address is 172.16.0.0/24.  You can create an Ansible inventory with those IP addresses.
+* Discover the devices ip addresses. Here, I assume your network IP address is 172.16.0.0/24.  You can create an Ansible `inventory.cfg <ansible/inventory.cfg>`_ with those IP addresses.
 
     .. code:: bash
 
