@@ -1,6 +1,8 @@
 # Macondo: Yet Another Raspberry Pi Cluster
 
+<p aling="center">
 <img src="images/raspberries.jpg" style="align:center"> 
+</p>
 
 There are some practical reasons motivating this exercise;
 however, the main one is just for fun... Why not? 
@@ -16,7 +18,7 @@ however, the main one is just for fun... Why not?
 * Some sort of casing for the RPis cluster
 
 <p align="center">
-<img src="./images/cluster.jpg"  style="height:400px;">
+<img src="./images/cluster.jpg"  height="350">
 </p>
 
 ## Setup
