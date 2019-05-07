@@ -28,7 +28,7 @@ however, the main one is just for fun... Why not?
 ### Bootstrap and Configuration
 
 The SD cards must be flashed (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`, and the cluster powered-up before starting with the configuration. I used Ansible to configure the devices.
+ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered-up before starting with the configuration. I used Ansible to configure the devices.
 
 * nmap or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
