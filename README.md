@@ -7,49 +7,50 @@
 There are some practical reasons motivating this exercise;
 however, the main one is just for fun... Why not? 
 
+<!-- <div style="float: right">
+<img src="./images/cluster.jpg"  height="250">
+</div>
+-->
 
 ## Hardware
 
-* 5 Raspberry Pi model 3 Model B+
-* 5 32 GB micro SD cards (I used SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
+* 5 (or any number > 1) Raspberry Pi model 3 Model B+
+* 5 (or any number > 1) 32 GB micro SD cards (I used SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
 * A 8-port 100Mbps switch (I used [this one](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
 * A power supply with enough wattage (I used [this 60W one](https://www.anker.com/products/A2133111))
 * Micro-USB and ethernet cables
 * Some sort of casing for the RPis cluster
 
-<p align="center">
-<img src="./images/cluster.jpg"  height="450">
-</p>
+
 
 ## Setup
 
 ### Bootstrap and Configuration
 
-Assuming you have flashed the SD cards (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-enabled ssh (create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`, and
-powered-up the cluster, you can start with
-the configuration. I used Ansible to configure the devices.
+The SD cards must be flashed (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
+ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`, and the cluster powered-up before starting with the configuration. I used Ansible to configure the devices.
 
-* Discover the devices ip addresses. Here, I assume your network IP address is 172.16.0.0/24.  You can create an Ansible [inventory.cfg](ansible/inventory.cfg) with those IP addresses.
+* nmap or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
     ```bash
     sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
     ```
-* The ansible playbooks are located in the ansible folder ( `cd ansible` )
-* Create a new user (e.g. `macondo`), deploy an ssh public key; finally, delete the old user `pi`:
-   
-    ```bash
-    ansible-playbook playbooks/create_user.yml -i inventory.cfg --user pi --ask-pass  -e user_name=macondo  -e ssh_key=FULL_PATH_TO_ID_RSA_PUB 
-    
-    ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
-    ```
-* Optionally, you can change the devices hostnames. This playbook has to be applied on each device, for instance:
-    
-    ```bash
-    ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
-    ```
+* The ansible playbooks are located in the ansible folder ( `cd ansible` ) and support the following tasks:
 
-  In my case the nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
+    * Creating a new user (e.g. `macondo`), deploying an ssh public key, and, finally, deleting the old user `pi`:
+    
+        ```bash
+        ansible-playbook playbooks/create_user.yml -i inventory.cfg --user pi --ask-pass  -e user_name=macondo  -e ssh_key=FULL_PATH_TO_ID_RSA_PUB 
+        
+        ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
+        ```
+    * (Optional) In addition, devices hostnames can be updated. This playbook has to be applied on each individual device, for instance:
+        
+        ```bash
+        ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
+        ```
+
+    In my case, the nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
 
 ## Additional Ansible Scripts
 
