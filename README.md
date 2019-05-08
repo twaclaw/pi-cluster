@@ -14,12 +14,12 @@ however, the main one is just for fun... Why not?
 
 ## Hardware
 
-* 5 (or any number > 1) Raspberry Pi model 3 Model B+
-* 5 (or any number > 1) 32 GB micro SD cards (I used SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
+* 5 (or any number larger than 1) Raspberry Pi 3 Model B+
+* 5 (or any number larger than 1) 32 GB micro SD cards (I used a SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
 * A 8-port 100Mbps switch (I used [this one](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
 * A power supply with enough wattage (I used [this 60W one](https://www.anker.com/products/A2133111))
 * Micro-USB and ethernet cables
-* Some sort of casing for the RPis cluster
+* A Raspberry Pi cluster case
 
 
 
@@ -28,9 +28,9 @@ however, the main one is just for fun... Why not?
 ### Bootstrap and Configuration
 
 The SD cards must be flashed (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered-up before starting with the configuration. I used Ansible to configure the devices.
+ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered up (of course) before starting with the configuration. I used Ansible to configure the devices. In this way, most of the configuration can be done simultaneously on all the devices.
 
-* nmap or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
+* `nmap` or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
     ```bash
     sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
@@ -44,13 +44,13 @@ ssh enabled (just create an empty file called "ssh" in the boot partition: `touc
         
         ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
         ```
-    * (Optional) In addition, devices hostnames can be updated. This playbook has to be applied on each individual device, for instance:
+    * [Optional] In addition, devices hostnames can be changed. This playbook has to be applied to each individual device, for instance:
         
         ```bash
         ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
         ```
 
-    In my case, the nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
+    My cluster nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
 
 ## Additional Ansible Scripts
 
