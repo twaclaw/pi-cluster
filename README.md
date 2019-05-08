@@ -14,10 +14,10 @@ however, the main one is just for fun... Why not?
 
 ## Hardware
 
-* 5 (or any number larger than 1) Raspberry Pi 3 Model B+
-* 5 (or any number larger than 1) 32 GB micro SD cards (I used a SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
-* A 8-port 100Mbps switch (I used [this one](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
-* A power supply with enough wattage (I used [this 60W one](https://www.anker.com/products/A2133111))
+* 5 (or any other number) Raspberry Pi 3 Model B+
+* A 32 GB micro SD card for each Raspberry Pi (I used a SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
+* An ethernet switch (I used this [8-ports 100 Mbps Renkforce Network Switch ](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
+* A USB power supply with enough wattage (I used this [ANKER 60W 10-Port](https://www.anker.com/products/A2133111))
 * Micro-USB and ethernet cables
 * A Raspberry Pi cluster case
 
@@ -71,3 +71,4 @@ ansible all -m ping -i inventory.cfg -u macondo
 ## Credits
 - https://github.com/garthvh/ansible-raspi-playbooks
 - https://github.com/vicchi/ansible-pi-lockdown
+- [Image source](https://www.cuisineaz.com/recettes/tartelettes-aux-framboises-a-la-creme-de-mascarpone-2922.aspx)
