@@ -16,7 +16,7 @@ however, the main one is just for fun... Why not?
 
 * 5 (or any other number) Raspberry Pi 3 Model B+
 * A 32 GB micro SD card for each Raspberry Pi (I used a SanDisk ultra class 10, manufacturer number: SDSQUAR-032G-GN6TA)
-* An ethernet switch (I used this [8-ports 100 Mbps Renkforce Network Switch ](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
+* An ethernet switch (I used this [8-port 100 Mbps Renkforce Network Switch ](https://www.conrad.com/p/renkforce-network-switch-8-ports-100-mbps-1483812))
 * A USB power supply with enough wattage (I used this [ANKER 60W 10-Port](https://www.anker.com/products/A2133111))
 * Micro-USB and ethernet cables
 * A Raspberry Pi cluster case
@@ -28,7 +28,7 @@ however, the main one is just for fun... Why not?
 ### Bootstrap and Configuration
 
 The SD cards must be flashed (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered up (of course) before starting with the configuration. I used Ansible to configure the devices. In this way, most of the configuration can be done simultaneously on all the devices.
+ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered up (of course) before starting with the configuration. I used Ansible to configure the devices. By using Ansible, most of the configuration can be done simultaneously on all the devices.
 
 * `nmap` or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
