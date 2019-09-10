@@ -27,10 +27,10 @@ however, the main one is just for fun... Why not?
 
 ### Bootstrap and Configuration
 
-The SD cards must be flashed (I used [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-ssh enabled (just create an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster powered up (of course) before starting with the configuration. I used Ansible to configure the devices. By using Ansible, most of the configuration can be done simultaneously on all the devices.
+The SD cards must be flashed (e.g. with [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
+ssh enabled (by creating an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster turned on (of course) before starting with the configuration. [Ansible](https://www.ansible.com/) was used to automate the configuration. In this way, most of the configuration can be done simultaneously on all devices.
 
-* `nmap` or similar can be used to discover the devices IP addresses (my network IP address is 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
+* `nmap` or similar can be used to discover the devices IP addresses (in this case within the network 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
     ```bash
     sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
@@ -44,7 +44,7 @@ ssh enabled (just create an empty file called "ssh" in the boot partition: `touc
         
         ansible-playbook playbooks/remove_user.yml -i inventory.cfg --user macondo --ask-become-pass -e user_name=pi
         ```
-    * [Optional] In addition, devices hostnames can be changed. This playbook has to be applied to each individual device, for instance:
+    * [Optional] Devices hostnames can be changed. This playbook has to be applied to each individual device, for instance:
         
         ```bash
         ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
@@ -67,6 +67,8 @@ For instance:
 ```bash
 ansible all -m ping -i inventory.cfg -u macondo
 ```
+## Conclusions
+Ansible is cool. Most steps scale well, baptizing individual nodes is just a matter of personal taste. 
 
 ## Credits
 - https://github.com/garthvh/ansible-raspi-playbooks
