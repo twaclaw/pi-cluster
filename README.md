@@ -5,7 +5,7 @@
 </p>
 
 There are some practical reasons motivating this exercise;
-however, the main one is just for fun... Why not? 
+however, the main reason is just for fun... Why not? 
 
 <!-- <div style="float: right">
 <img src="./images/cluster.jpg"  height="250">
@@ -28,14 +28,14 @@ however, the main one is just for fun... Why not?
 ### Bootstrap and Configuration
 
 The SD cards must be flashed (e.g. with [raspbian](https://www.raspberrypi.org/documentation/installation/installing-images/linux.md)),
-ssh enabled (by creating an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster turned on (of course) before starting with the configuration. [Ansible](https://www.ansible.com/) was used to automate the configuration. In this way, most of the configuration can be done simultaneously on all devices.
+ssh enabled (by creating an empty file called "ssh" in the boot partition: `touch /mount-point/boot/ssh`), and the cluster turned on (of course) before starting with the configuration. [Ansible](https://www.ansible.com/) was used to automate the configuration; in this way, the configuration can be done simultaneously on all devices.
 
-* `nmap` or similar can be used to discover the devices IP addresses (in this case within the network 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
+* `nmap` or similar can be used to discover the devices IP addresses (in this example within the network 172.16.0.0/24).  The IP addresses can be listed in an Ansible [inventory.cfg](ansible/inventory.cfg).
 
     ```bash
     sudo nmap -sn 172.16.0.0-255 |grep rasp -i  -B 2
     ```
-* The ansible playbooks are located in the ansible folder ( `cd ansible` ) and support the following tasks:
+* The ansible playbooks are located in the `ansible` folder, and support the following tasks:
 
     * Creating a new user (e.g. `macondo`), deploying an ssh public key, and, finally, deleting the old user `pi`:
     
@@ -50,7 +50,7 @@ ssh enabled (by creating an empty file called "ssh" in the boot partition: `touc
         ansible-playbook playbooks/change_hostname.yml -i "172.16.0.178," --user macondo --ask-become-pass -e hostname=remedios 
         ```
 
-    My cluster nodes are called: Ursula, Amaranta, Rebeca, Pilar and Remedios.
+    My cluster nodes are called: ursula, amaranta, rebeca, pilar and remedios.
 
 ## Additional Ansible Scripts
 
@@ -68,7 +68,7 @@ For instance:
 ansible all -m ping -i inventory.cfg -u macondo
 ```
 ## Conclusions
-Ansible is cool. Most steps scale well, baptizing individual nodes is just a matter of personal taste. 
+Ansible is cool. Most of the steps described previously scale well, baptizing individual nodes is just a matter of personal taste. 
 
 ## Credits
 - https://github.com/garthvh/ansible-raspi-playbooks
